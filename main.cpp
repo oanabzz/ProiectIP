@@ -30,7 +30,7 @@ int trueMap[1000][1000];
 int matAUX[1000][1000];
 int dl[]={-1,0,1,0,-1,1,1,-1};
 int dc[]={0,1,0,-1,1,1,-1,-1};
-
+int seconds=0;
 
 void printMatrix();
 void setConsoleSize(int lines, int columns)
@@ -193,7 +193,8 @@ void printMatrix()
 
         cout<<endl;
     }
-    //cout<<noOfBombs<<"   "<<correctness;
+    cout<<endl<<endl;
+    cout<<seconds;
 }
 
 int sum (int i, int j)
@@ -309,6 +310,7 @@ void arrows()
     //input=getch();
 char aux;
 int c = 0;
+clock_t start = clock();
     while(keepGoing)
     {
         c = 0;
@@ -317,6 +319,12 @@ int c = 0;
             endGame(1);
             return;
         }
+        while(! _kbhit())
+            if(((clock()-start)/CLOCKS_PER_SEC)!=seconds)
+            {
+                seconds++;
+                printMatrix();
+            }
         switch((c=getch())) {
         case KEY_UP:
             {
