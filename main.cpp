@@ -163,33 +163,25 @@ void select()
 }
 void bomb()
 {
-    if(mat[pozi][pozj]==225)
-    {
-        mat[pozi][pozj]=254;
-        system("cls");
-        printMatrix();
-        return;
-    }
-    /*if(trueMap[pozi][pozj]!=-1&&mat[pozi][pozj]==254)
-    {
-        correctness--;
-        mat[pozi][pozj]=225;
-        system("cls");
-        printMatrix();
-    }
-    if(trueMap[pozi][pozj]!=-1&&mat[pozi][pozj]==225)
-    {
-        correctness++;
-        mat[pozi][pozj]=254;
-        system("cls");
-        printMatrix();
-    }
-    if(trueMap[pozi][pozj]==-1)
+    if(mat[pozi][pozj]==-2)//pune bomba
         {
             mat[pozi][pozj]=225;
             system("cls");
             printMatrix();
-        }*/
+            noOfBombs--;
+            if(trueMap[pozi][pozj]!=-1)
+                correctness--;
+        }
+    else
+        if(mat[pozi][pozj]==-31)//scoate bomba
+        {
+            mat[pozi][pozj]=254;
+            system("cls");
+            printMatrix();
+            noOfBombs++;
+            if(trueMap[pozi][pozj]==-1)
+                correctness++;
+        }
 
 }
 void arrows()
@@ -201,7 +193,11 @@ int c = 0;
     while(keepGoing)
     {
         c = 0;
-
+        if(correctness==0&&noOfBombs==0)
+        {
+            cout<<"You Win";
+            return;
+        }
         switch((c=getch())) {
         case KEY_UP:
             {
@@ -244,16 +240,20 @@ int c = 0;
                 endGame(0);
                 return;
             }
+            break;
         case 99:
             {
+
                 select();
                 if(keepGoing)
                     printMatrix();
             }
+            break;
         case 98:
             {
                 bomb();
             }
+            break;
         }
 
     }
