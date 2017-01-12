@@ -14,7 +14,7 @@
 
 
 using namespace std;
-bool correctness=true;
+int correctness;
 int sizex,sizey;
 int pozi=1, pozj=1;
 int selectPozi,selectPozj;
@@ -41,18 +41,18 @@ void areYouSure()
 {
     //cout are u sure
 }
-int endGame(char c)
+void endGame(char c)
 {
     keepGoing=0;
     system("cls");
     cout<<"wtf";
-    if(c==27)
+    /*if(c==27)
         areYouSure();
     if(noOfBombs==0&&correctness)
         return 1;
     if(trueMap[selectPozi][selectPozj]==-1)
         return -1;
-    return 0;
+    return 0;*/
 
 }
 void createMatrix()
@@ -152,8 +152,45 @@ void select()
         generateMatrixFirst(pozi,pozj);
         transformPrintingMat(pozi,pozj);
     }
-    if(trueMap[pozi][pozj]==-1)
+    if(trueMap[pozi][pozj]==-1)//square
+       {
+        //cout<<"trolololo";
         endGame(0);
+       }
+
+    if(trueMap[pozi][pozj]>=0&&mat[pozi][pozj]!=225)//bomb
+        transformPrintingMat(pozi,pozj);
+}
+void bomb()
+{
+    if(mat[pozi][pozj]==225)
+    {
+        mat[pozi][pozj]=254;
+        system("cls");
+        printMatrix();
+        return;
+    }
+    /*if(trueMap[pozi][pozj]!=-1&&mat[pozi][pozj]==254)
+    {
+        correctness--;
+        mat[pozi][pozj]=225;
+        system("cls");
+        printMatrix();
+    }
+    if(trueMap[pozi][pozj]!=-1&&mat[pozi][pozj]==225)
+    {
+        correctness++;
+        mat[pozi][pozj]=254;
+        system("cls");
+        printMatrix();
+    }
+    if(trueMap[pozi][pozj]==-1)
+        {
+            mat[pozi][pozj]=225;
+            system("cls");
+            printMatrix();
+        }*/
+
 }
 void arrows()
 {
@@ -213,6 +250,10 @@ int c = 0;
                 if(keepGoing)
                     printMatrix();
             }
+        case 98:
+            {
+                bomb();
+            }
         }
 
     }
@@ -228,17 +269,7 @@ int main()
     //cin>>pos1>>pos2;
     //trueMap[2][3]=1;
     //generateMatrixFirst(2,3);
-    for(int i=1;i<=10;i++)
-    {
-        for(int j=1;j<=10;j++)
-            {
-                cout<<trueMap[i][j]<<' ';
-                if(trueMap[i][j]>=0)
-                    cout<<' ';
-            }
-        cout<<endl;
-    }
-    cout<<endl;
+
     //transformPrintingMat(1,1);
     //mat[1][1]=225;
     printMatrix();
