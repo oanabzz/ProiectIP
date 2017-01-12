@@ -32,7 +32,7 @@ int dl[]={-1,0,1,0,-1,1,1,-1};
 int dc[]={0,1,0,-1,1,1,-1,-1};
 
 
-
+void printMatrix();
 void setConsoleSize(int lines, int columns)
 {
     HWND console = GetConsoleWindow();
@@ -45,7 +45,7 @@ void setConsoleSize(int lines, int columns)
             MoveWindow(console,r.left,r.top,400,400,TRUE);
         else
             if(lines==30&&columns==16)
-            MoveWindow(console,r.left,r.top,400,500,TRUE);
+            MoveWindow(console,r.left,r.top,400,600,TRUE);
             else
                 MoveWindow(console,r.left,r.top,lines*30,columns*30,TRUE);
 
@@ -96,9 +96,51 @@ void areYouSure()
 }
 void endGame(int c)
 {
+    HANDLE  hConsole;
+    hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(hConsole, 15);
     keepGoing=0;
     system("cls");
-    cout<<"wtf";
+    if(c==0)
+    {
+        for(int i=1;i<=sizex;i++)
+            {
+                for(int j=1;j<=sizey;j++)
+                {
+                    if(trueMap[i][j]==-1&&mat[i][j]==-31)//bomba pusa corect
+                    {
+                        SetConsoleTextAttribute(hConsole, 11);
+                        cout<<mat[i][j]<<' ';
+                        SetConsoleTextAttribute(hConsole,15);
+                    }
+                    else if(trueMap[i][j]==-1&&mat[i][j]!=-31)//bomba nu a fost pusa
+                    {
+                        SetConsoleTextAttribute(hConsole,21);
+                        cout<<(char)-31;
+                        SetConsoleTextAttribute(hConsole,15);
+                        cout<<' ';
+                    }
+                    else if(trueMap[i][j]!=-1&&mat[i][j]==-31)//bomba pusa gresit
+                    {
+                        SetConsoleTextAttribute(hConsole,22);
+                        cout<<(char)-31;
+                        SetConsoleTextAttribute(hConsole,15);
+                        cout<<' ';
+                    }
+                    else cout<<mat[i][j]<<' ';
+                }
+                cout<<endl;
+            }
+
+    }
+    if(c==1)
+    {
+        system("cls");
+        printMatrix();
+        Sleep(200);
+        system("cls");
+        cout<<"You Win";
+    }
     /*if(c==27)
         areYouSure();
     if(noOfBombs==0&&correctness)
@@ -172,8 +214,8 @@ void generateMatrixFirst (int i, int j)
     //cout<<randomPos<<endl;
     while(countBombs<noOfBombs)
     {
-        x=rand()%10+1;
-        y=rand()%10+1;
+        x=rand()%sizex+1;
+        y=rand()%sizey+1;
         //cout<<x<<' '<<y<<endl<<endl;
         if(trueMap[x][y]==0&&(abs(x-i)>2||abs(y-j)>2))
             { trueMap[x][y]=-1; countBombs++;}
@@ -272,7 +314,7 @@ int c = 0;
         c = 0;
         if(correctness==0&&noOfBombs==0)
         {
-            cout<<"You Win";
+            endGame(1);
             return;
         }
         switch((c=getch())) {
@@ -513,7 +555,7 @@ int main()
 {
     //beginGame();
     //arrows();
-    createMatrix();
+    //createMatrix();
     //printMatrix();
     //arrows();
     int pos1,pos2;
