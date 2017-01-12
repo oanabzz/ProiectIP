@@ -2,10 +2,14 @@
 #include <stdlib.h>
 #include<string.h>
 #include<conio.h>
+#define _WIN32_WINNT 0x0500
 #include<windows.h>
 #include<random>
 #include <time.h>
 #include<math.h>
+#include <cwchar>
+
+
 
 #define KEY_UP 72
 #define KEY_DOWN 80
@@ -26,22 +30,55 @@ int trueMap[1000][1000];
 int matAUX[1000][1000];
 int dl[]={-1,0,1,0,-1,1,1,-1};
 int dc[]={0,1,0,-1,1,1,-1,-1};
-void beginGame()
+
+void printFirstMessage(int index)
 {
-    int option;
-    cout<<"Hello"<<endl<<endl;
-    cout<<"Choose your option:"<<endl;
-    cout<<"1. New Game"<<endl;
-    cout<<"Your option: ";
-    cin>>option;
-    system("cls");
+    HWND console = GetConsoleWindow();
+    RECT r;
+    GetWindowRect(console,&r);
+    MoveWindow(console,r.left,r.top,280,300,TRUE);
+
+
+    HANDLE  hConsole;
+    hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(hConsole, 12);
+    cout<<endl<<endl;
+    cout<<"\t MINESWEEPER"<<endl<<endl<<endl;
+    SetConsoleTextAttribute(hConsole, 15);
+    cout<<"\t  Game Mode:   "<<endl;
+    if(index==1)
+    {
+        SetConsoleTextAttribute(hConsole, 11);
+        cout<<"\t   Classic   "<<endl;
+        SetConsoleTextAttribute(hConsole, 15);
+        cout<<"\t   Infinite   "<<endl;
+        cout<<"\t  Competitive";
+    }
+    if(index==2)
+    {
+        cout<<"\t   Classic   "<<endl;
+        SetConsoleTextAttribute(hConsole, 11);
+        cout<<"\t   Infinite   "<<endl;
+        SetConsoleTextAttribute(hConsole, 15);
+        cout<<"\t  Competitive";
+    }
+    if(index==3)
+    {
+        cout<<"\t   Classic   "<<endl;
+        cout<<"\t   Infinite   "<<endl;
+        SetConsoleTextAttribute(hConsole, 11);
+        cout<<"\t  Competitive";
+        SetConsoleTextAttribute(hConsole, 15);
+    }
 }
+
+
 
 void areYouSure()
 {
     //cout are u sure
 }
-void endGame(char c)
+void endGame(int c)
 {
     keepGoing=0;
     system("cls");
@@ -258,6 +295,156 @@ int c = 0;
 
     }
 }
+
+
+void classicMode(int index);
+void arrowsClassicMode();
+void arrowsMenu()
+{
+    printFirstMessage(1);
+    char c=0;
+    c=getch();
+    int index=1;
+    while(1)
+    {
+
+        switch((c=getch())) {
+        case KEY_UP:
+            {
+                if(index==1)
+                    index=4;
+                system("cls");
+                index--;
+                printFirstMessage(index);
+            }
+            break;
+        case KEY_DOWN:
+            {
+                if(index==3)
+                    index=0;
+                system("cls");
+                index++;
+                printFirstMessage(index);
+            }
+            break;
+        case 13:
+            {
+                if(index==1)
+                {
+                    system("cls");
+                    arrowsClassicMode();
+                }
+                return;
+            }
+            break;
+
+
+
+
+    }
+}
+}
+
+void classicMode(int index)
+{
+    HWND console = GetConsoleWindow();
+    RECT r;
+    GetWindowRect(console,&r);
+    MoveWindow(console,r.left,r.top,280,300,TRUE);
+
+
+    HANDLE  hConsole;
+    hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(hConsole, 12);
+    cout<<endl<<endl;
+    cout<<"\t MINESWEEPER"<<endl<<endl<<endl;
+    SetConsoleTextAttribute(hConsole, 15);
+    cout<<"\t  Classic Mode   "<<endl;
+    if(index==1)
+    {
+        SetConsoleTextAttribute(hConsole, 11);
+        cout<<"\t   Small   "<<endl;
+        SetConsoleTextAttribute(hConsole, 15);
+        cout<<"\t   Medium   "<<endl;
+        cout<<"\t  Large"<<endl;
+        cout<<"\t Custom"<<endl;
+    }
+    if(index==2)
+    {
+
+        cout<<"\t   Small   "<<endl;
+        SetConsoleTextAttribute(hConsole, 11);
+        cout<<"\t   Medium   "<<endl;
+        SetConsoleTextAttribute(hConsole, 15);
+        cout<<"\t  Large"<<endl;
+        cout<<"\t Custom"<<endl;
+    }
+    if(index==3)
+    {
+        cout<<"\t   Small   "<<endl;
+        cout<<"\t   Medium   "<<endl;
+        SetConsoleTextAttribute(hConsole, 11);
+        cout<<"\t  Large"<<endl;
+        SetConsoleTextAttribute(hConsole, 15);
+        cout<<"\t Custom"<<endl;
+    }
+    if(index==4)
+    {
+        cout<<"\t   Small   "<<endl;
+        cout<<"\t   Medium   "<<endl;
+        cout<<"\t  Large"<<endl;
+        SetConsoleTextAttribute(hConsole, 11);
+        cout<<"\t Custom"<<endl;
+        SetConsoleTextAttribute(hConsole, 15);
+    }
+}
+void arrowsClassicMode()
+{
+    classicMode(1);
+    char c=0;
+    c=getch();
+    int index=1;
+    while(1)
+    {
+
+        switch((c=getch())) {
+        case KEY_UP:
+            {
+                if(index==1)
+                    index=5;
+                system("cls");
+                index--;
+                classicMode(index);
+            }
+            break;
+        case KEY_DOWN:
+            {
+                if(index==4)
+                    index=0;
+                system("cls");
+                index++;
+                classicMode(index);
+            }
+            break;
+        case 13:
+            {
+                if(index==1)
+                {
+                    sizex=sizey=10;
+                    noOfBombs=10;
+                    printMatrix();
+                    arrows();
+                }
+                if(index==2)
+                {
+
+                }
+                return;
+            }
+            break;
+}
+    }
+}
 int main()
 {
     //beginGame();
@@ -272,7 +459,12 @@ int main()
 
     //transformPrintingMat(1,1);
     //mat[1][1]=225;
-    printMatrix();
-    arrows();
+    //printMatrix();
+    //arrows();
+    HWND console = GetConsoleWindow();
+    RECT r;
+    GetWindowRect(console,&r);
+    MoveWindow(console,r.left,r.top,280,300,TRUE);
+    arrowsMenu();
     return 0;
 }
