@@ -47,7 +47,7 @@ void setConsoleSize(int lines, int columns)
             if(lines==30&&columns==16)
             MoveWindow(console,r.left,r.top,400,500,TRUE);
             else
-                MoveWindow(console,r.left,r.top,lines*25,columns*25,TRUE);
+                MoveWindow(console,r.left,r.top,lines*30,columns*30,TRUE);
 
 }
 void printFirstMessage(int index)
@@ -125,6 +125,10 @@ void printMatrix()
     for(int i=1;i<=sizex;i++)
     {
         for(int j=1;j<=sizey;j++)
+            {if(mat[i][j]==-31)
+                SetConsoleTextAttribute(hConsole,11);
+            else
+                SetConsoleTextAttribute(hConsole,15);
             if(i==pozi&&j==pozj)
                 if(mat[i][j]!=0)
             {
@@ -139,10 +143,15 @@ void printMatrix()
                 cout<<aux<<' ';
                 SetConsoleTextAttribute(hConsole, 15);
             }
+            else {
+                    //SetConsoleTextAttribute(hConsole, 15);
+                    cout<<mat[i][j]<<' ';
+            }
+            }
 
-            else cout<<mat[i][j]<<' ';
         cout<<endl;
     }
+    //cout<<noOfBombs<<"   "<<correctness;
 }
 
 int sum (int i, int j)
@@ -197,6 +206,12 @@ void transformPrintingMat(int i, int j)
     }
 }
 
+
+void infiniteMode()
+{
+
+}
+
 void select()
 {
     if(firstMove)
@@ -218,21 +233,30 @@ void bomb()
 {
     if(mat[pozi][pozj]==-2)//pune bomba
         {
+            int aux;
+            if(trueMap[pozi][pozj]!=-1)
+                aux=1;
+            else aux=0;
             mat[pozi][pozj]=225;
             system("cls");
             printMatrix();
             noOfBombs--;
-            if(trueMap[pozi][pozj]!=-1)
+            if(trueMap[pozi][pozj]!=-1&&aux)
                 correctness--;
         }
     else
         if(mat[pozi][pozj]==-31)//scoate bomba
         {
+            int aux;
+            if(trueMap[pozi][pozj]!=-1)
+                aux=1;
+            else aux=0;
             mat[pozi][pozj]=254;
             system("cls");
             printMatrix();
             noOfBombs++;
-            if(trueMap[pozi][pozj]==-1)
+            if(trueMap[pozi][pozj]!=-1&&aux)
+
                 correctness++;
         }
 
