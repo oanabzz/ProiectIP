@@ -14,11 +14,14 @@
 
 
 using namespace std;
+bool correctness=true;
 int sizex,sizey;
 int pozi=1, pozj=1;
+int selectPozi,selectPozj;
 int noOfBombs=10;
 char mat[1000][1000];
 int trueMap[1000][1000];
+int matAUX[1000][1000];
 int dl[]={-1,0,1,0,-1,1,1,-1};
 int dc[]={0,1,0,-1,1,1,-1,-1};
 void beginGame()
@@ -31,11 +34,22 @@ void beginGame()
     cin>>option;
     system("cls");
 }
+
+
+int endGame()
+{
+    if(noOfBombs==0&&correctness)
+        return 1;
+    if(trueMap[selectPozi][selectPozj]==-1)
+        return -1;
+    return 0;
+
+}
 void createMatrix()
 {
     for(int i=1;i<=10;i++)
         for(int j=1;j<=10;j++)
-            mat[i][j]=167;
+            mat[i][j]=254;
     mat[1][1]=254;
 }
 void printMatrix()
@@ -43,15 +57,23 @@ void printMatrix()
     HANDLE  hConsole;
 
     hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-    //system("cls");
+    system("cls");
     SetConsoleTextAttribute(hConsole, 15);
     for(int i=1;i<=10;i++)
     {
         for(int j=1;j<=10;j++)
             if(i==pozi&&j==pozj)
+                if(mat[i][j]!=0)
             {
                 SetConsoleTextAttribute(hConsole, 12);
                 cout<<mat[i][j]<<' ';
+                SetConsoleTextAttribute(hConsole, 15);
+            }
+            else
+            {
+                char aux=248;
+                SetConsoleTextAttribute(hConsole, 12);
+                cout<<aux<<' ';
                 SetConsoleTextAttribute(hConsole, 15);
             }
 
@@ -93,17 +115,27 @@ void generateMatrixFirst (int i, int j)
 }
 void transformPrintingMat(int i, int j)
 {
-    if(trueMap[i][j]==0)
-        mat[i][j]=0;
-    else
-        mat[i][j]='0'+trueMap[i][j];
-    for(int k=0;k<8;k++)
-        if(mat[i+dl[k]][j+dc[k]]>=0)
+    if(i>=1&&i<=10&&j>=1&&j<=10&&matAUX[i][j]==0)
+    {
+        if(trueMap[i][j]==0)
+        {
+            mat[i][j]=0;
+            matAUX[i][j]=1;
+            for(int k=0;k<8;k++)
+        if(trueMap[i+dl[k]][j+dc[k]]>=0)
             transformPrintingMat(i+dl[k],j+dc[k]);
+        }
+    else
+        {
+            mat[i][j]='0'+trueMap[i][j];
+            matAUX[i][j]=1;
+        }
+
+    }
 }
 void arrows()
 {
-
+char aux;
 int c = 0;
     while(1)
     {
@@ -113,36 +145,36 @@ int c = 0;
         case KEY_UP:
             {
                 if(pozi>1)
-                {mat[pozi][pozj]=167;
+                {//mat[pozi][pozj]=167;
                 pozi--;
-                mat[pozi][pozj]=254;
+                //mat[pozi][pozj]=254;
                 printMatrix();}
             }
             break;
         case KEY_DOWN:
             {
                 if(pozi<10)
-                {mat[pozi][pozj]=167;
+                {//mat[pozi][pozj]=167;
                 pozi++;
-                mat[pozi][pozj]=254;
+                //mat[pozi][pozj]=254;
                 printMatrix();}
             }
             break;
         case KEY_LEFT:
             {
                 if(pozj>1)
-                {mat[pozi][pozj]=167;
+                {//mat[pozi][pozj]=167;
                 pozj--;
-                mat[pozi][pozj]=254;
+                //mat[pozi][pozj]=254;
                 printMatrix();}
             }
             break;
         case KEY_RIGHT:
             {
                 if(pozj<10)
-                {mat[pozi][pozj]=167;
+                {//mat[pozi][pozj]=167;
                 pozj++;
-                mat[pozi][pozj]=254;
+                //mat[pozi][pozj]=254;
                 printMatrix();}
             }
             break;
@@ -173,7 +205,8 @@ int main()
         cout<<endl;
     }
     cout<<endl;
+    transformPrintingMat(1,1);
     printMatrix();
-    //arrows();
+    arrows();
     return 0;
 }
