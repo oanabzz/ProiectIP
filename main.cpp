@@ -31,7 +31,11 @@ int matAUX[1000][1000];
 int dl[]={-1,0,1,0,-1,1,1,-1};
 int dc[]={0,1,0,-1,1,1,-1,-1};
 int seconds=0;
+char secondMatrix[1000][1000];
+int secondMap[1000][1000];
+int AUXmatrix[1000][1000];
 
+void createInfiniteMatrixButNotReally(int v[1000]);
 void printMatrix();
 void setConsoleSize(int lines, int columns)
 {
@@ -249,7 +253,64 @@ void transformPrintingMat(int i, int j)
     }
 }
 
+void generateTheAuxiliarMatrix()
+{
+    for(int i=1;i<=10;i++)
+        for(int j=1;j<=10;j++)
+        AUXmatrix[i][j]=0;
+    srand(time(NULL));
+    int countBombs=0;
+    int x,y;
+    while(countBombs<10)
+    {
+        x=rand()%9+2;//fara primul rand
+        y=rand()%10+1;
+        if(AUXmatrix[x][y]==0)
+            {
+                AUXmatrix[x][y]=-1;
+                countBombs++;
+            }
+    }
+    for(int j=1;j<=10;j++)
+        {
+            if(mat[20][j-1]==-1) AUXmatrix[1][j]++;
+            if(mat[20][j]==-1)  AUXmatrix[1][j]++;
+            if(mat[20][j+1]==-1) AUXmatrix[1][j]++;
+            if(AUXmatrix[2][j-1]==-1) AUXmatrix[1][j]++;
+            if(AUXmatrix[2][j]==-1) AUXmatrix[1][j]++;
+            if(AUXmatrix[2][j+1]==-1) AUXmatrix[1][j]++;
+        }
+    for(int l=1;l<=2;l++)
+        for(int c=1;c<=10;c++)
+            if(AUXmatrix[l][c]==0)
+            {
+                if(AUXmatrix[l-1][c-1]==-1) AUXmatrix[l][c]++;
+                if(AUXmatrix[l-1][c]==-1) AUXmatrix[l][c]++;
+                if(AUXmatrix[l-1][c+1]==-1) AUXmatrix[l][c]++;
+                if(AUXmatrix[l][c-1]==-1) AUXmatrix[l][c]++;
+                if(AUXmatrix[l][c+1]==-1) AUXmatrix[l][c]++;
+                if(AUXmatrix[l+1][c-1]==-1) AUXmatrix[l][c]++;
+                if(AUXmatrix[l+1][c]==-1) AUXmatrix[l][c]++;
+                if(AUXmatrix[l+1][c+1]==-1) AUXmatrix[l][c]++;
+            }
+}
+void copyMatrix()
+{
+    for(int i=1;i<=10;i++)
+        for(int j=1;j<=10;j++)
+        trueMap[i][j]=trueMap[i+10][j];
+    for(int i=11;i<=20;i++)
+        for(int j=1;j<=10;j++)
+        trueMap[i][j]=AUXmatrix[i-10][j];
+}
+void createInfiniteMatrixButNotReally()
+{
+    sizex=10;
+    sizey=20;
+    createMatrix();
+    //generateMatrixFirst();
 
+}
 void infiniteMode()
 {
 
