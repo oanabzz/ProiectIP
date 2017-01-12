@@ -319,7 +319,7 @@ void arrowsMenu()
 {
     printFirstMessage(1);
     char c=0;
-    c=getch();
+    //c=getch();
     int index=1;
     while(1)
     {
@@ -372,42 +372,45 @@ void classicMode(int index)
     cout<<endl<<endl;
     cout<<"\t MINESWEEPER"<<endl<<endl<<endl;
     SetConsoleTextAttribute(hConsole, 15);
-    cout<<"\t  Classic Mode   "<<endl;
+    cout<<"\t Classic Mode   "<<endl;
     if(index==1)
     {
+        cout<<endl;
         SetConsoleTextAttribute(hConsole, 11);
-        cout<<"\t   Small   "<<endl;
+        cout<<"\t    Small   "<<endl;
         SetConsoleTextAttribute(hConsole, 15);
-        cout<<"\t   Medium   "<<endl;
-        cout<<"\t  Large"<<endl;
-        cout<<"\t Custom"<<endl;
+        cout<<"\t    Medium   "<<endl;
+        cout<<"\t    Large    "<<endl;
+        cout<<"\t    Custom"<<endl;
     }
     if(index==2)
     {
-
-        cout<<"\t   Small   "<<endl;
+        cout<<endl;
+        cout<<"\t    Small   "<<endl;
         SetConsoleTextAttribute(hConsole, 11);
-        cout<<"\t   Medium   "<<endl;
+        cout<<"\t    Medium   "<<endl;
         SetConsoleTextAttribute(hConsole, 15);
-        cout<<"\t  Large"<<endl;
-        cout<<"\t Custom"<<endl;
+        cout<<"\t    Large    "<<endl;
+        cout<<"\t    Custom"<<endl;
     }
     if(index==3)
     {
-        cout<<"\t   Small   "<<endl;
-        cout<<"\t   Medium   "<<endl;
+        cout<<endl;
+        cout<<"\t    Small   "<<endl;
+        cout<<"\t    Medium   "<<endl;
         SetConsoleTextAttribute(hConsole, 11);
-        cout<<"\t  Large"<<endl;
+        cout<<"\t    Large    "<<endl;
         SetConsoleTextAttribute(hConsole, 15);
-        cout<<"\t Custom"<<endl;
+        cout<<"\t    Custom"<<endl;
     }
     if(index==4)
     {
-        cout<<"\t   Small   "<<endl;
-        cout<<"\t   Medium   "<<endl;
-        cout<<"\t  Large"<<endl;
+        cout<<endl;
+        cout<<"\t    Small   "<<endl;
+        cout<<"\t    Medium   "<<endl;
+        cout<<"\t    Large    "<<endl;
         SetConsoleTextAttribute(hConsole, 11);
-        cout<<"\t Custom"<<endl;
+        cout<<"\t    Custom"<<endl;
         SetConsoleTextAttribute(hConsole, 15);
     }
 }
@@ -415,7 +418,7 @@ void arrowsClassicMode()
 {
     classicMode(1);
     char c=0;
-    c=getch();
+    //c=getch();
     int index=1;
     while(1)
     {
@@ -498,11 +501,7 @@ int main()
     //mat[1][1]=225;
     //printMatrix();
     //arrows();
-    HWND console = GetConsoleWindow();
-    RECT r;
-    GetWindowRect(console,&r);
-    MoveWindow(console,r.left,r.top,280,300,TRUE);
+    setConsoleSize(10,10);
     arrowsMenu();
     return 0;
 }
-
