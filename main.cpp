@@ -19,6 +19,8 @@ int sizex,sizey;
 int pozi=1, pozj=1;
 int selectPozi,selectPozj;
 int noOfBombs=10;
+bool keepGoing=1;
+bool firstMove=1;
 char mat[1000][1000];
 int trueMap[1000][1000];
 int matAUX[1000][1000];
@@ -35,9 +37,17 @@ void beginGame()
     system("cls");
 }
 
-
-int endGame()
+void areYouSure()
 {
+    //cout are u sure
+}
+int endGame(char c)
+{
+    keepGoing=0;
+    system("cls");
+    cout<<"wtf";
+    if(c==27)
+        areYouSure();
     if(noOfBombs==0&&correctness)
         return 1;
     if(trueMap[selectPozi][selectPozj]==-1)
@@ -97,12 +107,12 @@ void generateMatrixFirst (int i, int j)
     int countBombs=0;
     int x,y;
     int randomPos=(rand()%10)/2;
-    cout<<randomPos<<endl;
+    //cout<<randomPos<<endl;
     while(countBombs<noOfBombs)
     {
         x=rand()%10+1;
         y=rand()%10+1;
-        cout<<x<<' '<<y<<endl<<endl;
+        //cout<<x<<' '<<y<<endl<<endl;
         if(trueMap[x][y]==0&&(abs(x-i)>2||abs(y-j)>2))
             { trueMap[x][y]=-1; countBombs++;}
     }
@@ -133,11 +143,25 @@ void transformPrintingMat(int i, int j)
 
     }
 }
+
+void select()
+{
+    if(firstMove)
+    {
+        firstMove=0;
+        generateMatrixFirst(pozi,pozj);
+        transformPrintingMat(pozi,pozj);
+    }
+    if(trueMap[pozi][pozj]==-1)
+        endGame(0);
+}
 void arrows()
 {
+    char input;
+    //input=getch();
 char aux;
 int c = 0;
-    while(1)
+    while(keepGoing)
     {
         c = 0;
 
@@ -178,7 +202,17 @@ int c = 0;
                 printMatrix();}
             }
             break;
-
+        case 27:
+            {
+                endGame(0);
+                return;
+            }
+        case 99:
+            {
+                select();
+                if(keepGoing)
+                    printMatrix();
+            }
         }
 
     }
@@ -193,7 +227,7 @@ int main()
     int pos1,pos2;
     //cin>>pos1>>pos2;
     //trueMap[2][3]=1;
-    generateMatrixFirst(2,3);
+    //generateMatrixFirst(2,3);
     for(int i=1;i<=10;i++)
     {
         for(int j=1;j<=10;j++)
@@ -205,7 +239,8 @@ int main()
         cout<<endl;
     }
     cout<<endl;
-    transformPrintingMat(1,1);
+    //transformPrintingMat(1,1);
+    //mat[1][1]=225;
     printMatrix();
     arrows();
     return 0;
