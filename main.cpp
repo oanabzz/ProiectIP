@@ -42,26 +42,29 @@ void select();
 void bomb();
 void createInfiniteMatrixButNotReally(int v[1000]);
 void printMatrix();
+bool verifyClearedRow();
 void setConsoleSize(int lines, int columns)
 {
     HWND console = GetConsoleWindow();
     RECT r;
     GetWindowRect(console,&r);
-    if(lines==10&&columns==10)
+    if(lines==1&&columns==1)
         MoveWindow(console,r.left,r.top,280,300,TRUE);
+    else if(lines==10&&columns==10)
+        MoveWindow(console,r.left,r.top,400,400,TRUE);
     else
         if(lines==16&&columns==16)
             MoveWindow(console,r.left,r.top,400,400,TRUE);
         else
             if(lines==30&&columns==16)
-            MoveWindow(console,r.left,r.top,400,600,TRUE);
+            MoveWindow(console,r.left,r.top,800,800,TRUE);
             else
                 MoveWindow(console,r.left,r.top,lines*30,columns*30,TRUE);
 
 }
 void printFirstMessage(int index)
 {
-    setConsoleSize(10,10);
+    setConsoleSize(1,1);
 
 
     HANDLE  hConsole;
@@ -173,8 +176,15 @@ void printMatrix()
     hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     system("cls");
     SetConsoleTextAttribute(hConsole, 15);
+    cout<<endl<<endl<<endl<<endl;
+    cout<<"\t"<<(char)201;
+    for(int i=1;i<=sizey*2+1;i++)
+        cout<<(char)205;
+    cout<<(char)187;
+    cout<<endl;
     for(int i=1;i<=sizex;i++)
     {
+        cout<<"\t"<<(char)186<<' ';
         for(int j=1;j<=sizey;j++)
             {if(mat[i][j]==-31)
                 SetConsoleTextAttribute(hConsole,11);
@@ -195,13 +205,17 @@ void printMatrix()
                 SetConsoleTextAttribute(hConsole, 15);
             }
             else {
-                    //SetConsoleTextAttribute(hConsole, 15);
+
                     cout<<mat[i][j]<<' ';
             }
             }
-
+        cout<<(char)186;
         cout<<endl;
     }
+    cout<<"\t"<<(char)200;
+    for(int i=1;i<=sizey*2+1;i++)
+        cout<<(char)205;
+    cout<<(char)188;
     cout<<endl<<endl;
     cout<<seconds;
 }
@@ -310,6 +324,11 @@ void copyMapMatrix()
 }
 void createInfiniteMatrixButNotReally()
 {
+    //i m gonna leave this here cause it s funny
+    //it's not really funny
+    //i'm not really funny
+    //but everything iz oke
+    //i'm fien :)
     sizex=10;
     sizey=20;
     createMatrix();
@@ -361,7 +380,23 @@ void printInfiniteMatrix()
 
         cout<<endl;
     }
-    cout<<seconds;
+    cout<<seconds<<' '<<verifyClearedRow();
+}
+
+
+bool verifyClearedRow()
+{
+    for(int j=1;j<=10;j++)
+        if(trueMap[currentLine][j]==0&&mat[currentLine][j]!=0)
+            return 0;
+        else if(trueMap[currentLine][j]>0&&mat[currentLine][j]!='0'+trueMap[currentLine][j])
+            return 0;
+    return 1;
+}
+void endInfiniteGame()
+{
+    system("cls");
+    cout<<"Infinite Loss";
 }
 
 void arrowsInfinite()
@@ -388,6 +423,11 @@ void arrowsInfinite()
             }
                 if(seconds%10==0&&seconds&&isItTime)
                 {
+                    if(verifyClearedRow()==0)
+                    {
+                        endInfiniteGame();
+                        return;
+                    }
                     isItTime=0;
                     if(currentLine==10)
                     {
@@ -667,7 +707,7 @@ void arrowsMenu()
 
 void classicMode(int index)
 {
-    setConsoleSize(10,10);
+    setConsoleSize(1,1);
 
 
     HANDLE  hConsole;
