@@ -45,6 +45,7 @@ void printMatrix();
 bool verifyClearedRow();
 void arrowsClassicMode();
 void arrows();
+void arrowsMenu();
 void resetValues()
 {
     seconds=0;
@@ -458,6 +459,7 @@ bool verifyClearedRow()
 }
 void endInfiniteGame()
 {
+    keepGoing=0;
     system("cls");
     setConsoleSize(10,10);
     HANDLE  hConsole;
@@ -492,7 +494,7 @@ void endInfiniteGame()
     for(int i=currentLine+aux;i<=currentLine+10;i++)
     {
         cout<<"\t"<<(char)186<<' ';
-        for(int j=1;j<=sizey;j++)
+        for(int j=1;j<=10;j++)
                 {
                     if(trueMap[i][j]==-1&&mat[i][j]==-31)//bomba pusa corect
                     {
@@ -523,8 +525,32 @@ void endInfiniteGame()
     for(int i=1;i<=21;i++)
         cout<<(char)205;
     cout<<(char)188;
-    cout<<endl<<endl<<endl;
-    cout<<seconds<<' '<<verifyClearedRow();
+    cout<<endl<<endl;
+    cout<<"      You couldn't reach infinity"<<endl;
+    cout<<"              Shame on you";
+    Sleep(2000);
+    system("cls");
+    cout<<endl<<endl<<endl<<endl<<endl<<endl<<endl<<endl<<endl;
+
+    cout<<"\t That means you lost";
+      cout<<endl<<endl<<endl<<endl<<endl<<endl<<endl;
+    Sleep(2000);
+    system("cls");
+    cout<<endl<<endl<<endl<<endl<<endl<<endl<<endl<<endl<<endl;
+
+    cout<<"\t That means you lost"<<endl;
+    cout<<"    Press Esc to close and cry or"<<endl;
+    cout<<"   Enter to go to the Main Menu and"<<endl;
+    cout<<"              try again";
+    char c;
+    c=getch();
+    if(c==13)
+    {
+        system("cls");
+        arrowsMenu();
+    }
+    if(c==27)
+        return;
 }
 
 
@@ -655,8 +681,9 @@ void select()
     }
     if(trueMap[pozi][pozj]==-1)//square
        {
-        //cout<<"trolololo";
-        endGame(0);
+           if(infinity)
+                endInfiniteGame();
+           else endGame(0);
        }
 
     if(trueMap[pozi][pozj]>=0&&mat[pozi][pozj]!=225)//bomb
