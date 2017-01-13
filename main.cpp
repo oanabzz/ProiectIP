@@ -127,6 +127,7 @@ void areYouSure(int option)
         arrowsClassicMode();
     }
 }
+
 void endGame(int c)
 {
     HANDLE  hConsole;
@@ -458,8 +459,76 @@ bool verifyClearedRow()
 void endInfiniteGame()
 {
     system("cls");
-    cout<<"Infinite Loss";
+    setConsoleSize(10,10);
+    HANDLE  hConsole;
+
+    hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    system("cls");
+    SetConsoleTextAttribute(hConsole, 15);
+    cout<<endl<<endl<<endl;
+    cout<<"\t"<<(char)201;
+    for(int i=1;i<=21;i++)
+        cout<<(char)205;
+    cout<<(char)187;
+    cout<<endl;
+    int aux=0;
+    if(verifyClearedRow()==0)
+        {
+            aux++;
+            cout<<"\t"<<(char)186<<' ';
+            SetConsoleTextAttribute(hConsole,207);
+            for(int j=1;j<=10;j++)
+                if(trueMap[currentLine][j]==-1)
+                    cout<<(char)-31<<' ';
+            else
+                if(trueMap[currentLine][j]==0)
+                cout<<"  ";
+            else
+                cout<<trueMap[currentLine][j]<<' ';
+            SetConsoleTextAttribute(hConsole,15);
+            cout<<(char)186;
+            cout<<endl;
+        }
+    for(int i=currentLine+aux;i<=currentLine+10;i++)
+    {
+        cout<<"\t"<<(char)186<<' ';
+        for(int j=1;j<=sizey;j++)
+                {
+                    if(trueMap[i][j]==-1&&mat[i][j]==-31)//bomba pusa corect
+                    {
+                        SetConsoleTextAttribute(hConsole, 11);
+                        cout<<mat[i][j]<<' ';
+                        SetConsoleTextAttribute(hConsole,15);
+                    }
+                    else if(trueMap[i][j]==-1&&mat[i][j]!=-31)//bomba nu a fost pusa
+                    {
+                        SetConsoleTextAttribute(hConsole,12);
+                        cout<<(char)-31;
+                        SetConsoleTextAttribute(hConsole,15);
+                        cout<<' ';
+                    }
+                    else if(trueMap[i][j]!=-1&&mat[i][j]==-31)//bomba pusa gresit
+                    {
+                        SetConsoleTextAttribute(hConsole,207);
+                        cout<<"X";
+                        SetConsoleTextAttribute(hConsole,15);
+                        cout<<' ';
+                    }
+                    else cout<<mat[i][j]<<' ';
+                }
+        cout<<(char)186;
+        cout<<endl;
+    }
+    cout<<"\t"<<(char)200;
+    for(int i=1;i<=21;i++)
+        cout<<(char)205;
+    cout<<(char)188;
+    cout<<endl<<endl<<endl;
+    cout<<seconds<<' '<<verifyClearedRow();
 }
+
+
+
 
 void arrowsInfinite()
 {
