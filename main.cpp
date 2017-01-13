@@ -51,15 +51,15 @@ void setConsoleSize(int lines, int columns)
     if(lines==1&&columns==1)
         MoveWindow(console,r.left,r.top,280,300,TRUE);
     else if(lines==10&&columns==10)
-        MoveWindow(console,r.left,r.top,400,400,TRUE);
+        MoveWindow(console,r.left,r.top,350,350,TRUE);
     else
         if(lines==16&&columns==16)
-            MoveWindow(console,r.left,r.top,400,400,TRUE);
+            MoveWindow(console,r.left,r.top,450,450,TRUE);
         else
-            if(lines==30&&columns==16)
-            MoveWindow(console,r.left,r.top,800,800,TRUE);
+            if(lines==16&&columns==30)
+            MoveWindow(console,r.left,r.top,680,450,TRUE);
             else
-                MoveWindow(console,r.left,r.top,lines*30,columns*30,TRUE);
+                MoveWindow(console,r.left,r.top,columns*16.5+185,lines*16.5+185,TRUE);
 
 }
 void printFirstMessage(int index)
@@ -176,7 +176,15 @@ void printMatrix()
     hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     system("cls");
     SetConsoleTextAttribute(hConsole, 15);
-    cout<<endl<<endl<<endl<<endl;
+    cout<<endl<<endl<<endl;
+    cout<<"\t";
+    cout<<"sec: "<<seconds;
+    if(seconds<10)
+        cout<<' ';
+    for(int i=1;i<=2*sizey-9;i++)
+        cout<<' ';
+    cout<<"*: "<<noOfBombs;
+    cout<<endl;
     cout<<"\t"<<(char)201;
     for(int i=1;i<=sizey*2+1;i++)
         cout<<(char)205;
@@ -216,8 +224,8 @@ void printMatrix()
     for(int i=1;i<=sizey*2+1;i++)
         cout<<(char)205;
     cout<<(char)188;
-    cout<<endl<<endl;
-    cout<<seconds;
+    cout<<endl<<endl<<endl;
+
 }
 
 int sum (int i, int j)
@@ -804,10 +812,10 @@ void arrowsClassicMode()
                 }
                 if(index==3)
                 {
-                    sizex=30;
-                    sizey=16;
+                    sizex=16;
+                    sizey=30;
                     noOfBombs=99;
-                    setConsoleSize(30,16);
+                    setConsoleSize(16,30);
                 }
                 if(index==4)
                 {
