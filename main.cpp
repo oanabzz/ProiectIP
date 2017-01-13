@@ -43,6 +43,22 @@ void bomb();
 void createInfiniteMatrixButNotReally(int v[1000]);
 void printMatrix();
 bool verifyClearedRow();
+void arrowsClassicMode();
+void arrows();
+void resetValues()
+{
+    seconds=0;
+    keepGoing=1;
+    firstMove=1;
+    //pozi=pozj=1;
+    correctness=0;
+    for(int i=0;i<=100;i++)
+        for(int j=0;j<=100;j++)
+    {
+        trueMap[i][j]=0;
+        matAUX[i][j]=0;
+    }
+}
 void setConsoleSize(int lines, int columns)
 {
     HWND console = GetConsoleWindow();
@@ -102,9 +118,14 @@ void printFirstMessage(int index)
 
 
 
-void areYouSure()
+void areYouSure(int option)
 {
-    //cout are u sure
+    int answer;
+    if(option==1)//classic mode
+    {
+
+        arrowsClassicMode();
+    }
 }
 void endGame(int c)
 {
@@ -637,7 +658,8 @@ clock_t start = clock();
             break;
         case 27:
             {
-                endGame(0);
+                areYouSure(1);
+                //arrowsClassicMode();
                 return;
             }
             break;
@@ -801,6 +823,7 @@ void arrowsClassicMode()
                     sizex=10;
                     sizey=10;
                     noOfBombs=10;
+                    resetValues();
                     setConsoleSize(10,10);
                 }
                 if(index==2)
@@ -808,6 +831,7 @@ void arrowsClassicMode()
                     sizex=16;
                     sizey=16;
                     noOfBombs=40;
+                    resetValues();
                     setConsoleSize(16,16);
                 }
                 if(index==3)
@@ -815,6 +839,7 @@ void arrowsClassicMode()
                     sizex=16;
                     sizey=30;
                     noOfBombs=99;
+                    resetValues();
                     setConsoleSize(16,30);
                 }
                 if(index==4)
@@ -826,6 +851,7 @@ void arrowsClassicMode()
                     cin>>sizey;
                     cout<<"Number of BOMBS: "<<endl;
                     cin>>noOfBombs;
+                    resetValues();
                     setConsoleSize(sizex,sizey);
                 }
                 createMatrix();
