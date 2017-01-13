@@ -36,6 +36,9 @@ int secondMap[1000][1000];
 int AUXmatrix[1000][1000];
 int currentLine=1;
 bool infinity=0;
+int levelSeconds[]={10,10,10,10,10,10,5,5,5,5,5,5,3,3,3,3,3,3,2,2,2,2,2,2,1};
+int rowsCleared;
+int level;
 
 
 void select();
@@ -59,6 +62,7 @@ void resetValues()
         trueMap[i][j]=0;
         matAUX[i][j]=0;
     }
+    rowsCleared=0;
 }
 void setConsoleSize(int lines, int columns)
 {
@@ -187,14 +191,60 @@ void endGame(int c)
         cout<<(char)205;
     cout<<(char)188;
     cout<<endl<<endl<<endl;
+    Sleep(2000);
+    system("cls");
+    setConsoleSize(10,10);
+    cout<<endl<<endl<<endl<<endl<<endl<<endl;
+    cout<<"\t       You lost"<<endl;
+    cout<<"         Press Esc to close or"<<endl;
+    cout<<"     Enter to go to the Main Menu";
+    char c;
+    while(1)
+    {
+        c=getch();
+        if(c==13)
+        {
+        system("cls");
+        arrowsMenu();
+
+        }
+        if(c==27)
+            return;
+    }
     }
     if(c==1)
     {
         system("cls");
         printMatrix();
-        Sleep(200);
+        Sleep(1500);
         system("cls");
-        cout<<"You Win";
+        setConsoleSize(10,10);
+        for(int i=1;i<=14;i++)
+        {
+            system("cls");
+            SetConsoleTextAttribute(hConsole,i);
+            cout<<endl<<endl<<endl<<endl<<endl<<endl;
+            cout<<"              You Win";
+            Sleep(200);
+        }
+        SetConsoleTextAttribute(hConsole,15);
+        cout<<endl;
+
+            cout<<"        Press Esc to Exit or "    <<endl;
+            cout<<"    Enter to go to the Main Menu";
+        char c;
+        while(1)
+        {
+            c=getch();
+            if(c==13)
+            {
+            system("cls");
+            arrowsMenu();
+
+            }
+            if(c==27)
+                return;
+    }
     }
     /*if(c==27)
         areYouSure();
@@ -403,7 +453,13 @@ void printInfiniteMatrix()
     hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     system("cls");
     SetConsoleTextAttribute(hConsole, 15);
-    cout<<endl<<endl<<endl;
+    cout<<endl;
+    cout<<"\t Time: "<<seconds<<"      Level: "<<level+1<<endl;
+    cout<<"\t     Sec/Level: ";
+    if(level<24)
+        cout<<levelSeconds[level];
+    else cout<<"1";
+    cout<<endl;
     cout<<"\t"<<(char)201;
     for(int i=1;i<=21;i++)
         cout<<(char)205;
@@ -443,8 +499,7 @@ void printInfiniteMatrix()
     for(int i=1;i<=21;i++)
         cout<<(char)205;
     cout<<(char)188;
-    cout<<endl<<endl<<endl;
-    cout<<seconds<<' '<<verifyClearedRow();
+    cout<<endl<<endl;
 }
 
 
@@ -578,7 +633,11 @@ void arrowsInfinite()
                 seconds++;
                 printInfiniteMatrix();
             }
-                if(seconds%10==0&&seconds&&isItTime)
+            int noOfSeconds;
+            if(level>=24)
+                noOfSeconds=1;
+            else noOfSeconds=levelSeconds[level];
+                if(seconds%noOfSeconds==0&&seconds&&isItTime)
                 {
                     if(verifyClearedRow()==0)
                     {
@@ -586,6 +645,7 @@ void arrowsInfinite()
                         return;
                     }
                     isItTime=0;
+                    level++;
                     if(currentLine==10)
                     {
                         generateTheAuxiliarMatrix();
@@ -785,7 +845,19 @@ clock_t start = clock();
                 printMatrix();}
             }
             break;
-        case 27:
+        case 27:cout<<"\t That means you lost"<<endl;
+    cout<<"    Press Esc to close and cry or"<<endl;
+    cout<<"   Enter to go to the Main Menu and"<<endl;
+    cout<<"              try again";
+    char c;
+    c=getch();
+    if(c==13)
+    {
+        system("cls");
+        arrowsMenu();
+    }
+    if(c==27)
+        return;
             {
                 system("cls");
                 areYouSure(1);
@@ -817,6 +889,7 @@ void arrowsClassicMode();
 void arrowsMenu()
 {
     printFirstMessage(1);
+    resetValues();
     char c=0;
     //c=getch();
     int index=1;
@@ -946,6 +1019,11 @@ void arrowsClassicMode()
                 classicMode(index);
             }
             break;
+        case 27:
+            {
+                system("cls");
+                arrowsMenu();
+            }
         case 13:
             {
                 if(index==1)
