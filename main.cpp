@@ -136,8 +136,23 @@ void endGame(int c)
     system("cls");
     if(c==0)
     {
+        cout<<endl<<endl<<endl;
+    cout<<"\t";
+    cout<<"sec: "<<seconds;
+    if(seconds<10)
+        cout<<' ';
+    for(int i=1;i<=2*sizey-9;i++)
+        cout<<' ';
+    cout<<"*: "<<noOfBombs;
+    cout<<endl;
+    cout<<"\t"<<(char)201;
+    for(int i=1;i<=sizey*2+1;i++)
+        cout<<(char)205;
+    cout<<(char)187;
+    cout<<endl;
         for(int i=1;i<=sizex;i++)
             {
+                cout<<"\t"<<(char)186<<' ';
                 for(int j=1;j<=sizey;j++)
                 {
                     if(trueMap[i][j]==-1&&mat[i][j]==-31)//bomba pusa corect
@@ -148,23 +163,28 @@ void endGame(int c)
                     }
                     else if(trueMap[i][j]==-1&&mat[i][j]!=-31)//bomba nu a fost pusa
                     {
-                        SetConsoleTextAttribute(hConsole,21);
+                        SetConsoleTextAttribute(hConsole,12);
                         cout<<(char)-31;
                         SetConsoleTextAttribute(hConsole,15);
                         cout<<' ';
                     }
                     else if(trueMap[i][j]!=-1&&mat[i][j]==-31)//bomba pusa gresit
                     {
-                        SetConsoleTextAttribute(hConsole,22);
-                        cout<<(char)-31;
+                        SetConsoleTextAttribute(hConsole,207);
+                        cout<<"X";
                         SetConsoleTextAttribute(hConsole,15);
                         cout<<' ';
                     }
                     else cout<<mat[i][j]<<' ';
                 }
+                cout<<(char)186;
                 cout<<endl;
             }
-
+            cout<<"\t"<<(char)200;
+    for(int i=1;i<=sizey*2+1;i++)
+        cout<<(char)205;
+    cout<<(char)188;
+    cout<<endl<<endl<<endl;
     }
     if(c==1)
     {
