@@ -35,6 +35,10 @@ char secondMatrix[1000][1000];
 int secondMap[1000][1000];
 int AUXmatrix[1000][1000];
 
+
+
+
+
 void createInfiniteMatrixButNotReally(int v[1000]);
 void printMatrix();
 void setConsoleSize(int lines, int columns)
@@ -273,14 +277,14 @@ void generateTheAuxiliarMatrix()
     }
     for(int j=1;j<=10;j++)
         {
-            if(mat[20][j-1]==-1) AUXmatrix[1][j]++;
-            if(mat[20][j]==-1)  AUXmatrix[1][j]++;
-            if(mat[20][j+1]==-1) AUXmatrix[1][j]++;
+            if(trueMap[20][j-1]==-1) AUXmatrix[1][j]++;
+            if(trueMap[20][j]==-1)  AUXmatrix[1][j]++;
+            if(trueMap[20][j+1]==-1) AUXmatrix[1][j]++;
             if(AUXmatrix[2][j-1]==-1) AUXmatrix[1][j]++;
             if(AUXmatrix[2][j]==-1) AUXmatrix[1][j]++;
             if(AUXmatrix[2][j+1]==-1) AUXmatrix[1][j]++;
         }
-    for(int l=1;l<=2;l++)
+    for(int l=1;l<=10;l++)
         for(int c=1;c<=10;c++)
             if(AUXmatrix[l][c]==0)
             {
@@ -294,7 +298,7 @@ void generateTheAuxiliarMatrix()
                 if(AUXmatrix[l+1][c+1]==-1) AUXmatrix[l][c]++;
             }
 }
-void copyMatrix()
+void copyMapMatrix()
 {
     for(int i=1;i<=10;i++)
         for(int j=1;j<=10;j++)
@@ -636,7 +640,40 @@ int main()
     //mat[1][1]=225;
     //printMatrix();
     //arrows();
-    setConsoleSize(10,10);
-    arrowsMenu();
+
+
+    //setConsoleSize(10,10);
+    //arrowsMenu();
+
+    sizex=20;
+    sizey=10;
+    noOfBombs=10;
+    createMatrix();
+    generateMatrixFirst(2,3);
+    generateTheAuxiliarMatrix();
+    for(int i=1;i<=20;i++)
+        {
+            cout<<i<<": ";
+            for(int j=1;j<=10;j++)
+                cout<<trueMap[i][j]<<' ';
+            cout<<endl;
+        }
+        cout<<endl;
+    for(int i=1;i<=10;i++)
+        {
+            cout<<i<<": ";
+            for(int j=1;j<=10;j++)
+                cout<<AUXmatrix[i][j]<<' ';
+            cout<<endl;
+        }
+    cout<<endl<<endl;
+    copyMapMatrix();
+    for(int i=1;i<=20;i++)
+    {
+        cout<<i<<": ";
+        for(int j=1;j<=10;j++)
+            cout<<trueMap[i][j]<<' ';
+        cout<<endl;
+    }
     return 0;
 }
