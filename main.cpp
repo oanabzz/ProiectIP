@@ -34,11 +34,12 @@ int seconds=0;
 char secondMatrix[1000][1000];
 int secondMap[1000][1000];
 int AUXmatrix[1000][1000];
+int currentLine=1;
+bool infinity=0;
 
 
-
-
-
+void select();
+void bomb();
 void createInfiniteMatrixButNotReally(int v[1000]);
 void printMatrix();
 void setConsoleSize(int lines, int columns)
@@ -315,9 +316,162 @@ void createInfiniteMatrixButNotReally()
     //generateMatrixFirst();
 
 }
+void transformInfiniteMatrix()
+{
+    for(int i=1;i<=10;i++)
+        for(int j=1;j<=10;j++)
+        mat[i][j]=mat[i+10][j];
+    for(int i=11;i<=20;i++)
+        for(int j=1;j<=10;j++)
+        mat[i][j]=254;
+}
+void printInfiniteMatrix()
+{
+    HANDLE  hConsole;
+
+    hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    system("cls");
+    SetConsoleTextAttribute(hConsole, 15);
+    for(int i=currentLine;i<=currentLine+10;i++)
+    {
+        for(int j=1;j<=10;j++)
+            {if(mat[i][j]==-31)
+                SetConsoleTextAttribute(hConsole,11);
+            else
+                SetConsoleTextAttribute(hConsole,15);
+            if(i==pozi&&j==pozj)
+                if(mat[i][j]!=0)
+            {
+                SetConsoleTextAttribute(hConsole, 12);
+                cout<<mat[i][j]<<' ';
+                SetConsoleTextAttribute(hConsole, 15);
+            }
+            else
+            {
+                char aux=248;
+                SetConsoleTextAttribute(hConsole, 12);
+                cout<<aux<<' ';
+                SetConsoleTextAttribute(hConsole, 15);
+            }
+            else {
+                    //SetConsoleTextAttribute(hConsole, 15);
+                    cout<<mat[i][j]<<' ';
+            }
+            }
+
+        cout<<endl;
+    }
+    cout<<seconds;
+}
+
+void arrowsInfinite()
+{
+    char aux;
+    bool isItTime=0;
+    int c = 0;
+    clock_t start = clock();
+    while(keepGoing)
+    {
+        c = 0;
+        if(correctness==0&&noOfBombs==0)
+        {
+            endGame(1);
+            return;
+        }
+        while(! _kbhit())
+            {
+                if(((clock()-start)/CLOCKS_PER_SEC)!=seconds)
+            {
+                isItTime=1;
+                seconds++;
+                printInfiniteMatrix();
+            }
+                if(seconds%10==0&&seconds&&isItTime)
+                {
+                    isItTime=0;
+                    if(currentLine==10)
+                    {
+                        generateTheAuxiliarMatrix();
+                        copyMapMatrix();
+                        transformInfiniteMatrix();
+                        currentLine=1;
+                        printInfiniteMatrix();
+                    }
+                    else currentLine++;
+                }
+            }
+        switch((c=getch())) {
+        case KEY_UP:
+            {
+                if(pozi>1+currentLine-1)
+                {//mat[pozi][pozj]=167;
+                pozi--;
+                //mat[pozi][pozj]=254;
+                printInfiniteMatrix();}
+            }
+            break;
+        case KEY_DOWN:
+            {
+                if(pozi<10+currentLine)
+                {//mat[pozi][pozj]=167;
+                pozi++;
+                //mat[pozi][pozj]=254;
+                printInfiniteMatrix();}
+            }
+            break;
+        case KEY_LEFT:
+            {
+                if(pozj>1)
+                {//mat[pozi][pozj]=167;
+                pozj--;
+                //mat[pozi][pozj]=254;
+                printInfiniteMatrix();}
+            }
+            break;
+        case KEY_RIGHT:
+            {
+                if(pozj<10)
+                {//mat[pozi][pozj]=167;
+                pozj++;
+                //mat[pozi][pozj]=254;
+                printInfiniteMatrix();}
+            }
+            break;
+        case 27:
+            {
+                endGame(0);
+                return;
+            }
+            break;
+        case 99:
+            {
+
+                select();
+                if(keepGoing)
+                    printInfiniteMatrix();
+            }
+            break;
+        case 98:
+            {
+                bomb();
+            }
+            break;
+        }
+
+    }
+}
+
+
+
+
 void infiniteMode()
 {
-
+    infinity=1;
+    sizex=20;
+    sizey=10;
+    noOfBombs=20;
+    createMatrix();
+    arrowsInfinite();
 }
 
 void select()
@@ -347,7 +501,10 @@ void bomb()
             else aux=0;
             mat[pozi][pozj]=225;
             system("cls");
-            printMatrix();
+            if(infinity)
+                printInfiniteMatrix();
+            else
+                printMatrix();
             noOfBombs--;
             if(trueMap[pozi][pozj]!=-1&&aux)
                 correctness--;
@@ -361,7 +518,10 @@ void bomb()
             else aux=0;
             mat[pozi][pozj]=254;
             system("cls");
-            printMatrix();
+            if(infinity)
+                printInfiniteMatrix();
+            else
+                printMatrix();
             noOfBombs++;
             if(trueMap[pozi][pozj]!=-1&&aux)
 
@@ -488,6 +648,11 @@ void arrowsMenu()
                 {
                     system("cls");
                     arrowsClassicMode();
+                }
+                if(index==2)
+                {
+                    system("cls");
+                    infiniteMode();
                 }
                 return;
             }
@@ -642,16 +807,16 @@ int main()
     //arrows();
 
 
-    //setConsoleSize(10,10);
-    //arrowsMenu();
+    setConsoleSize(10,10);
+    arrowsMenu();
 
-    sizex=20;
-    sizey=10;
-    noOfBombs=10;
-    createMatrix();
-    generateMatrixFirst(2,3);
-    generateTheAuxiliarMatrix();
-    for(int i=1;i<=20;i++)
+    //sizex=20;
+    //sizey=10;
+    //noOfBombs=20;
+    //createMatrix();
+    //generateMatrixFirst(2,3);
+    //generateTheAuxiliarMatrix();
+    /*for(int i=1;i<=20;i++)
         {
             cout<<i<<": ";
             for(int j=1;j<=10;j++)
@@ -674,6 +839,8 @@ int main()
         for(int j=1;j<=10;j++)
             cout<<trueMap[i][j]<<' ';
         cout<<endl;
-    }
+    }*/
+    //printInfiniteMatrix();
+    //arrowsInfinite();
     return 0;
 }
