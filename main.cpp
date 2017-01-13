@@ -62,6 +62,7 @@ void resetValues()
         trueMap[i][j]=0;
         matAUX[i][j]=0;
     }
+    infinity=0;
     rowsCleared=0;
 }
 void setConsoleSize(int lines, int columns)
