@@ -8,7 +8,7 @@
 #include <time.h>
 #include<math.h>
 #include <cwchar>
-
+#include <fstream>
 
 
 #define KEY_UP 72
@@ -375,13 +375,21 @@ void transformInfiniteMatrix()
 }
 void printInfiniteMatrix()
 {
+    setConsoleSize(10,10);
     HANDLE  hConsole;
 
     hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     system("cls");
     SetConsoleTextAttribute(hConsole, 15);
+    cout<<endl<<endl<<endl;
+    cout<<"\t"<<(char)201;
+    for(int i=1;i<=21;i++)
+        cout<<(char)205;
+    cout<<(char)187;
+    cout<<endl;
     for(int i=currentLine;i<=currentLine+10;i++)
     {
+        cout<<"\t"<<(char)186<<' ';
         for(int j=1;j<=10;j++)
             {if(mat[i][j]==-31)
                 SetConsoleTextAttribute(hConsole,11);
@@ -406,9 +414,14 @@ void printInfiniteMatrix()
                     cout<<mat[i][j]<<' ';
             }
             }
-
+        cout<<(char)186;
         cout<<endl;
     }
+    cout<<"\t"<<(char)200;
+    for(int i=1;i<=21;i++)
+        cout<<(char)205;
+    cout<<(char)188;
+    cout<<endl<<endl<<endl;
     cout<<seconds<<' '<<verifyClearedRow();
 }
 
@@ -658,6 +671,7 @@ clock_t start = clock();
             break;
         case 27:
             {
+                system("cls");
                 areYouSure(1);
                 //arrowsClassicMode();
                 return;
