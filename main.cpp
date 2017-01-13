@@ -1,6 +1,6 @@
 #include <iostream>
 #include <stdlib.h>
-#include<string.h>
+#include <string.h>
 #include<conio.h>
 #define _WIN32_WINNT 0x0500
 #include<windows.h>
@@ -9,6 +9,7 @@
 #include<math.h>
 #include <cwchar>
 #include <fstream>
+#include <string>
 
 
 #define KEY_UP 72
@@ -54,7 +55,6 @@ void resetValues()
     seconds=0;
     keepGoing=1;
     firstMove=1;
-    //pozi=pozj=1;
     correctness=0;
     for(int i=0;i<=100;i++)
         for(int j=0;j<=100;j++)
@@ -101,7 +101,7 @@ void printFirstMessage(int index)
         cout<<"\t   Classic   "<<endl;
         SetConsoleTextAttribute(hConsole, 15);
         cout<<"\t   Infinite   "<<endl;
-        cout<<"\t  Competitive";
+        cout<<"\t     Exit";
     }
     if(index==2)
     {
@@ -109,14 +109,14 @@ void printFirstMessage(int index)
         SetConsoleTextAttribute(hConsole, 11);
         cout<<"\t   Infinite   "<<endl;
         SetConsoleTextAttribute(hConsole, 15);
-        cout<<"\t  Competitive";
+        cout<<"\t     Exit";
     }
     if(index==3)
     {
         cout<<"\t   Classic   "<<endl;
         cout<<"\t   Infinite   "<<endl;
         SetConsoleTextAttribute(hConsole, 11);
-        cout<<"\t  Competitive";
+        cout<<"\t     Exit";
         SetConsoleTextAttribute(hConsole, 15);
     }
 }
@@ -246,13 +246,6 @@ void endGame(int c)
                 return;
     }
     }
-    /*if(c==27)
-        areYouSure();
-    if(noOfBombs==0&&correctness)
-        return 1;
-    if(trueMap[selectPozi][selectPozj]==-1)
-        return -1;
-    return 0;*/
 
 }
 void createMatrix()
@@ -336,12 +329,10 @@ void generateMatrixFirst (int i, int j)
     int countBombs=0;
     int x,y;
     int randomPos=(rand()%10)/2;
-    //cout<<randomPos<<endl;
     while(countBombs<noOfBombs)
     {
         x=rand()%sizex+1;
         y=rand()%sizey+1;
-        //cout<<x<<' '<<y<<endl<<endl;
         if(trueMap[x][y]==0&&(abs(x-i)>2||abs(y-j)>2))
             { trueMap[x][y]=-1; countBombs++;}
     }
@@ -433,7 +424,6 @@ void createInfiniteMatrixButNotReally()
     sizex=10;
     sizey=20;
     createMatrix();
-    //generateMatrixFirst();
 
 }
 void transformInfiniteMatrix()
@@ -488,7 +478,6 @@ void printInfiniteMatrix()
                 SetConsoleTextAttribute(hConsole, 15);
             }
             else {
-                    //SetConsoleTextAttribute(hConsole, 15);
                     cout<<mat[i][j]<<' ';
             }
             }
@@ -661,36 +650,32 @@ void arrowsInfinite()
         case KEY_UP:
             {
                 if(pozi>1+currentLine-1)
-                {//mat[pozi][pozj]=167;
+                {
                 pozi--;
-                //mat[pozi][pozj]=254;
                 printInfiniteMatrix();}
             }
             break;
         case KEY_DOWN:
             {
                 if(pozi<10+currentLine)
-                {//mat[pozi][pozj]=167;
+                {
                 pozi++;
-                //mat[pozi][pozj]=254;
                 printInfiniteMatrix();}
             }
             break;
         case KEY_LEFT:
             {
                 if(pozj>1)
-                {//mat[pozi][pozj]=167;
+                {
                 pozj--;
-                //mat[pozi][pozj]=254;
                 printInfiniteMatrix();}
             }
             break;
         case KEY_RIGHT:
             {
                 if(pozj<10)
-                {//mat[pozi][pozj]=167;
+                {
                 pozj++;
-                //mat[pozi][pozj]=254;
                 printInfiniteMatrix();}
             }
             break;
@@ -790,7 +775,6 @@ void bomb()
 void arrows()
 {
     char input;
-    //input=getch();
 char aux;
 int c = 0;
 clock_t start = clock();
@@ -812,36 +796,32 @@ clock_t start = clock();
         case KEY_UP:
             {
                 if(pozi>1)
-                {//mat[pozi][pozj]=167;
+                {
                 pozi--;
-                //mat[pozi][pozj]=254;
                 printMatrix();}
             }
             break;
         case KEY_DOWN:
             {
                 if(pozi<sizex)
-                {//mat[pozi][pozj]=167;
+                {
                 pozi++;
-                //mat[pozi][pozj]=254;
                 printMatrix();}
             }
             break;
         case KEY_LEFT:
             {
                 if(pozj>1)
-                {//mat[pozi][pozj]=167;
+                {
                 pozj--;
-                //mat[pozi][pozj]=254;
                 printMatrix();}
             }
             break;
         case KEY_RIGHT:
             {
                 if(pozj<sizey)
-                {//mat[pozi][pozj]=167;
+                {
                 pozj++;
-                //mat[pozi][pozj]=254;
                 printMatrix();}
             }
             break;
@@ -861,7 +841,6 @@ clock_t start = clock();
             {
                 system("cls");
                 areYouSure(1);
-                //arrowsClassicMode();
                 return;
             }
             break;
@@ -891,7 +870,6 @@ void arrowsMenu()
     printFirstMessage(1);
     resetValues();
     char c=0;
-    //c=getch();
     int index=1;
     while(1)
     {
@@ -927,6 +905,8 @@ void arrowsMenu()
                     system("cls");
                     infiniteMode();
                 }
+                if(index==3)
+                    return;
                 return;
             }
             break;
@@ -991,11 +971,24 @@ void classicMode(int index)
         SetConsoleTextAttribute(hConsole, 15);
     }
 }
+bool verifyInput(char input[100])
+{
+    for(int i=0;i<strlen(input);i++)
+        if(input[i]<'0'||input[i]>'9')
+            return false;
+    return true;
+}
+int stringToInt(char input[100])
+{
+    int rez=0;
+    for(int i=0;i<strlen(input);i++)
+        rez=input[i]-'0' + rez*10;
+    return rez;
+}
 void arrowsClassicMode()
 {
     classicMode(1);
     char c=0;
-    //c=getch();
     int index=1;
     while(1)
     {
@@ -1052,13 +1045,35 @@ void arrowsClassicMode()
                 }
                 if(index==4)
                 {
+                    char input[100];
                     system("cls");
-                    cout<<"Number of lines: "<<endl;
-                    cin>>sizex;
+                    cout<<"Number of lines: ";
+                    cin>>input;
+                    while(verifyInput(input)==0)
+                    {
+                        system("cls");
+                        cout<<"Number of lines: ";
+                        cin>>input;
+                    }
+                    sizex=stringToInt(input);
                     cout<<"Number of columns: "<<endl;
-                    cin>>sizey;
+                    cin>>input;
+                    while(verifyInput(input)==0)
+                    {
+                        system("cls");
+                        cout<<"Number of columns: ";
+                        cin>>input;
+                    }
+                    sizey=stringToInt(input);
                     cout<<"Number of BOMBS: "<<endl;
                     cin>>noOfBombs;
+                    while(verifyInput(input)==0)
+                    {
+                        system("cls");
+                        cout<<"Number of columns: ";
+                        cin>>input;
+                    }
+                    noOfBombs=stringToInt(input);
                     resetValues();
                     setConsoleSize(sizex,sizey);
                 }
@@ -1073,56 +1088,10 @@ void arrowsClassicMode()
 }
 int main()
 {
-    //beginGame();
-    //arrows();
-    //createMatrix();
-    //printMatrix();
-    //arrows();
-    int pos1,pos2;
-    //cin>>pos1>>pos2;
-    //trueMap[2][3]=1;
-    //generateMatrixFirst(2,3);
-
-    //transformPrintingMat(1,1);
-    //mat[1][1]=225;
-    //printMatrix();
-    //arrows();
-
 
     setConsoleSize(10,10);
     arrowsMenu();
 
-    //sizex=20;
-    //sizey=10;
-    //noOfBombs=20;
-    //createMatrix();
-    //generateMatrixFirst(2,3);
-    //generateTheAuxiliarMatrix();
-    /*for(int i=1;i<=20;i++)
-        {
-            cout<<i<<": ";
-            for(int j=1;j<=10;j++)
-                cout<<trueMap[i][j]<<' ';
-            cout<<endl;
-        }
-        cout<<endl;
-    for(int i=1;i<=10;i++)
-        {
-            cout<<i<<": ";
-            for(int j=1;j<=10;j++)
-                cout<<AUXmatrix[i][j]<<' ';
-            cout<<endl;
-        }
-    cout<<endl<<endl;
-    copyMapMatrix();
-    for(int i=1;i<=20;i++)
-    {
-        cout<<i<<": ";
-        for(int j=1;j<=10;j++)
-            cout<<trueMap[i][j]<<' ';
-        cout<<endl;
-    }*/
-    //printInfiniteMatrix();
-    //arrowsInfinite();
+
     return 0;
 }
